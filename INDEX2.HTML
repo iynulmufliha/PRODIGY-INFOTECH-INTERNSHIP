@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iynul's Frozen Stopwatch</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .digit {
+      font-size: 5vw; 
+      color: #00bfff; 
+    }
+
+    .btn {
+      font-size: 2vw; 
+      background-color: #00bfff; 
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Iynul's Frozen Stopwatch</h1>
+    <div id="time">
+      <span class="digit" id="hr">00</span>
+      <span class="txt">Hr</span>
+      <span class="digit" id="min">00</span>
+      <span class="txt">Min</span>
+      <span class="digit" id="sec">00</span>
+      <span class="txt">Sec</span>
+      <span class="digit" id="count">00</span>
+    </div>
+    <div id="buttons">
+      <button class="btn" id="start">Start</button>
+      <button class="btn" id="stop">Stop</button>
+      <button class="btn" id="reset">Reset</button>
+    </div>
+  </div>
+  <script>
+let hrs = min = sec = ms = 0;
+let startTimer;
+
+function updateDisplay() {
+  const phrs = hrs < 10 ? '0' + hrs : hrs;
+  const pmin = min < 10 ? '0' + min : min;
+  const psec = sec < 10 ? '0' + sec : sec;
+  const pms = ms < 10 ? '0' + ms : ms;
+
+  document.getElementById('hr').innerText = phrs;
+  document.getElementById('min').innerText = pmin;
+  document.getElementById('sec').innerText = psec;
+  document.getElementById('count').innerText = pms;
+}
+document.getElementById('start').addEventListener('click', () => {
+  if (!startTimer) {
+    startTimer = setInterval(() => {
+      ms++;
+      if (ms === 100) {
+        sec++;
+        ms = 0;
+      }
+      if (sec === 60) {
+        min++;
+        sec = 0;
+      }
+      if (min === 60) {
+        hrs++;
+        min = 0;
+      }
+      updateDisplay();
+    }, 10);
+  }
+});
+document.getElementById('stop').addEventListener('click', () => {
+  clearInterval(startTimer);
+  startTimer = null;
+});
+document.getElementById('reset').addEventListener('click', () => {
+  hrs = min = sec = ms = 0;
+  clearInterval(startTimer);
+  updateDisplay();
+});
+</script>
+</body>
+</html>
